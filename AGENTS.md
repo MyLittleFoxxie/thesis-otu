@@ -15,7 +15,7 @@ This thesis integrates two companion empirical papers from sibling repositories 
 - Always verify reported numbers directly against the latest `main` verification scripts in the two companion repositories (`checks/check_paper_numbers.py` in MESA; `analysis/check_decisions_numbers.py` and `analysis/step2_decisions_analyses.py` in Requirement Decisions). Do not copy outdated counts from earlier drafts or seminar scripts.
 - Keep existing BibTeX keys in `BibFiles/references.bib` aligned with `../thesis-literature/references.bib`.
 - **Privacy rule:** Never cite, link, or mention `../thesis-literature/` (or `../literature/`) inside `OntarioTechThesis.tex`, `Frontmatter/`, `Chapters/`, `Appendices/`, `BibFiles/`, or `README.md`.
-- Preserve the Ontario Tech University `MastersDoctoralThesis` template structure in `OntarioTechThesis.tex`.
+- Preserve the Ontario Tech University `MastersDoctoralThesis` template structure and `OntarioTechThesis.tex` entry file on `master`, which syncs directly with Overleaf. Keep MSSurvey files (`survey/`, `docs/`) on the separate `survey/mesa-human-review` branch (checked out in `../thesis-otu-survey/` and served via GitHub Pages from `/docs`) so Overleaf stays focused on the thesis manuscript.
 
 ## Thesis Chapter Structure
 
@@ -33,3 +33,4 @@ This thesis integrates two companion empirical papers from sibling repositories 
 Run from the repository root:
 - `python3 tools/verify_thesis.py` — validates included `.tex` files, BibTeX keys, `\ref`/`\label` links, figure paths, and privacy rules.
 - `python3 tools/verify_thesis.py --compile` — compiles `OntarioTechThesis.pdf` via `pdflatex` and `bibtex` (TeX Live is at `/Library/TeX/texbin`).
+- On the `survey/mesa-human-review` branch (`../thesis-otu-survey/`), run `python3 survey/build.py --check` and `python3 survey/verify.py`.
