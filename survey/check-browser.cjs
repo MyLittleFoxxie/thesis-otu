@@ -122,9 +122,10 @@ async function main() {
     assert.match(await page.getByRole("tooltip").innerText(), /answering questions or recognizing images/);
     await page.locator('#study .term[data-term="scores"]').focus();
     assert.match(await page.getByRole("tooltip").innerText(), /percentage of answers marked correct/);
-    await page.locator('#study .term[data-term="misconceptions"]').focus();
+    assert.equal(await page.locator('#study .term[data-term="misconceptions"]').count(), 0);
+    await page.locator('#study .term[data-term="cards"]').focus();
     await page.getByRole("tooltip").waitFor();
-    assert.match(await page.getByRole("tooltip").innerText(), /mistaken belief/);
+    assert.match(await page.getByRole("tooltip").innerText(), /One review item in this survey/);
     await page.keyboard.press("Tab");
     assert.equal(await page.locator(":focus").getAttribute("id"), "familiarity-ai-1");
     await page.keyboard.press("Space");
@@ -228,7 +229,7 @@ async function main() {
     assert.equal(first._subject, "TEST MSSurvey TruthfulQA");
     assert.equal(first.study_code, testCode);
     assert.equal(first.survey_id, "mesa-human-review-truthfulqa");
-    assert.equal(first.survey_version, "1.7");
+    assert.equal(first.survey_version, "1.8");
     assert.equal(first.rubric_version, "5.1");
     assert.equal(first.consent, "agreed");
     assert.match(first.packet_sha256, /^[0-9a-f]{64}$/);

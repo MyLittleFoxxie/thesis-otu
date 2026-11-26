@@ -1,6 +1,6 @@
 {
   "survey_id": "mesa-human-review-truthfulqa",
-  "version": "1.7",
+  "version": "1.8",
   "rubric_version": "5.1",
   "introduction": {
     "lede": "In this survey, you’ll use MESA to review an AI benchmark called TruthfulQA.",
@@ -76,7 +76,7 @@
     {"label": "AI system", "aliases": ["AI systems", "AI system"], "definition": "Software that uses AI to do tasks such as answering questions or recognizing images. It can combine a model with other tools."},
     {"label": "Scores", "aliases": ["test scores", "test score", "scores"], "definition": "Results from a test, such as the percentage of answers marked correct. How the test is run and graded affects what its scores can tell you."},
     {"label": "Rubric", "aliases": ["rubric"], "definition": "A set of questions or criteria with rules for choosing a rating."},
-    {"label": "Misconception", "aliases": ["misconceptions", "misconception"], "definition": "A mistaken belief or idea."},
+    {"label": "Card", "aliases": ["cards", "card"], "definition": "One review item in this survey. Each card gives a MESA question, its scope, and short evidence passages about TruthfulQA for you to rate."},
     {"label": "Evidence", "aliases": ["evidence"], "definition": "Information that helps you decide whether a claim is supported. In this survey, it comes from passages and results about TruthfulQA."},
     {"label": "Evidence level", "aliases": ["evidence level", "evidence levels"], "definition": "A label for what the supplied material supports. The label can describe a claim, a method, a reported check, a conflict, or missing information."},
     {"label": "Check outcome", "aliases": ["check outcome", "check outcomes"], "definition": "A label for what a check found. Use the result within the part of the benchmark the check examined."},
