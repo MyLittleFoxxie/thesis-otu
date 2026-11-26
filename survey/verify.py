@@ -34,6 +34,7 @@ def verify_content(content, *, paper_path=None, readme_path=None, rubric_path=No
             assert digest(path) == expected, f"{label} differs from the pinned copy."
 
     assert [card["criterion"] for card in packet["cards"]] == ["B06", "B07", "B10", "B12", "B18", "B20"]
+    assert packet["benchmark"]["abstract"] and packet["benchmark"]["abstract_source"]
     assert list(packet["levels"]) == [
         "claimed", "documented", "verified", "contradicted", "undocumented", "cannot_judge",
     ]

@@ -66,6 +66,8 @@ button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-
 .review-guide-toggle .choice-definitions { max-height: 55dvh; overflow: auto; }
 .criterion { font-size: .82rem; font-weight: 700; color: var(--muted); margin-bottom: .25rem; }
 .evidence { padding: .85rem 1rem; margin: .85rem 0; border-inline-start: 3px solid var(--accent); background: var(--wash); border-radius: .2rem .45rem .45rem .2rem; }
+.abstract { margin: .75rem 0 0; padding: .85rem 1rem; border-inline-start: 3px solid var(--rule); background: var(--wash); border-radius: .2rem .45rem .45rem .2rem; }
+.abstract-note { margin-top: .5rem; }
 .source { display: block; margin-top: .65rem; }
 .source + .source { margin-top: .2rem; }
 summary { color: var(--accent); font-weight: 650; cursor: pointer; width: fit-content; }

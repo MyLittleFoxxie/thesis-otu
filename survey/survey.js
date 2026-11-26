@@ -415,12 +415,14 @@ byId("study-steps").textContent = packet.introduction.steps;
 byId("consent-text").textContent = consent || "Preview mode: no responses are sent. If you click Save draft, your answers stay only in this browser.";
 byId("familiarity").append(...packet.familiarity.map(renderFamiliarity));
 byId("benchmark-description").textContent = packet.benchmark.description;
+byId("benchmark-abstract").textContent = packet.benchmark.abstract;
+byId("benchmark-abstract-source").textContent = packet.benchmark.abstract_source;
 byId("feedback-label").textContent = packet.feedback_prompt;
 byId("cards").append(...packet.cards.map(renderCard));
 renderExamples();
 renderDefinitions(byId("example-definitions"));
 renderDefinitions(byId("review-definitions"));
-for (const root of document.querySelectorAll("#study, #example, #review > .lede, #review > .guide, #review-bar, #cards article")) {
+for (const root of document.querySelectorAll("#study, #example, #review > .lede, #benchmark-overview, #review > .guide, #review-bar, #cards article")) {
   annotateTerms(root);
 }
 updateProgress();

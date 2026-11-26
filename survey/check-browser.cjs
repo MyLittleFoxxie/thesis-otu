@@ -37,6 +37,7 @@ async function openReview(page, scores) {
   await checkViewport(page, page.viewportSize().width > 540 ? "guide-desktop" : "guide-mobile");
   await page.getByRole("button", { name: "Review TruthfulQA" }).click();
   await page.getByRole("heading", { name: "Review TruthfulQA" }).waitFor();
+  assert.match(await page.locator("#benchmark-abstract").innerText(), /817 questions that span 38 categories/);
 }
 
 async function fillRatings(page) {
@@ -229,7 +230,7 @@ async function main() {
     assert.equal(first._subject, "TEST MSSurvey TruthfulQA");
     assert.equal(first.study_code, testCode);
     assert.equal(first.survey_id, "mesa-human-review-truthfulqa");
-    assert.equal(first.survey_version, "1.9");
+    assert.equal(first.survey_version, "1.10");
     assert.equal(first.rubric_version, "5.1");
     assert.equal(first.consent, "agreed");
     assert.match(first.packet_sha256, /^[0-9a-f]{64}$/);

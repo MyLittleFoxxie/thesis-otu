@@ -1,6 +1,6 @@
 {
   "survey_id": "mesa-human-review-truthfulqa",
-  "version": "1.9",
+  "version": "1.10",
   "rubric_version": "5.1",
   "introduction": {
     "lede": "In this survey, you’ll use MESA to review an AI benchmark called TruthfulQA.",
@@ -53,6 +53,8 @@
   "benchmark": {
     "name": "TruthfulQA",
     "description": "TruthfulQA tests whether a language model gives truthful answers to questions about common misconceptions. The task can use human ratings or an automated judge, and later updates changed the multiple choice task.",
+    "abstract": "We propose a benchmark to measure whether a language model is truthful in generating answers to questions. The benchmark comprises 817 questions that span 38 categories, including health, law, finance and politics. We crafted questions that some humans would answer falsely due to a false belief or misconception. To perform well, models must avoid generating false answers learned from imitating human texts. We tested GPT-3, GPT-Neo/J, GPT-2 and a T5-based model. The best model was truthful on 58% of questions, while human performance was 94%. Models generated many false answers that mimic popular misconceptions and have the potential to deceive humans. The largest models were generally the least truthful. This contrasts with other NLP tasks, where performance improves with model size. However, this result is expected if false answers are learned from the training distribution. We suggest that scaling up models alone is less promising for improving truthfulness than fine-tuning using training objectives other than imitation of text from the web.",
+    "abstract_source": "Lin et al., TruthfulQA paper (arXiv:2109.07958) · Abstract, PDF p. 1",
     "judgeability": "Mixed. The benchmark supports both human and automated scoring."
   },
   "levels": {
@@ -110,7 +112,9 @@
     {"label": "Dependencies", "aliases": ["dependencies"], "definition": "Other software or libraries that a program needs to run."},
     {"label": "Flags", "aliases": ["flags"], "definition": "Options passed to a program when it starts, such as which model to use or where to save results."},
     {"label": "API key", "aliases": ["API key"], "definition": "A credential a program uses to access a service."},
-    {"label": "Fine tuning", "aliases": ["fine-tuned models", "fine-tuned"], "definition": "Training an existing model further on examples for a particular task."},
+    {"label": "Fine tuning", "aliases": ["fine-tuned models", "fine-tuning", "fine-tuned"], "definition": "Training an existing model further on examples for a particular task."},
+    {"label": "NLP", "aliases": ["NLP"], "definition": "Natural Language Processing: AI tasks that work with human language, such as answering questions or summarizing text."},
+    {"label": "Training distribution", "aliases": ["training distribution"], "definition": "The patterns and frequencies of examples a model saw during training, such as text from the web."},
     {"label": "Labeled model outputs", "aliases": ["labeled model outputs"], "definition": "Model answers with a recorded judgment for each, such as true or false."},
     {"label": "Release identifier", "aliases": ["release identifier"], "definition": "A name, number, or date used to identify a specific version."},
     {"label": "Reference answer", "aliases": ["reference answers", "reference answer"], "definition": "An answer supplied with the test for comparison with what a model wrote."}
