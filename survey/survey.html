@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>MSSurvey | MESA guided review</title>
+  <style>
+:root {
+  color-scheme: light;
+  --background: #f5f5ef;
+  --paper: #fffefa;
+  --ink: #192c29;
+  --muted: #425852;
+  --rule: #c9d5cc;
+  --accent: #185a49;
+  --wash: #edf3ee;
+  --focus: #9b4b15;
+  font-family: system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--background);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; line-height: 1.55; }
+p { margin: 0 0 .85rem; }
+p:last-child { margin-bottom: 0; }
+
+.frame { width: min(calc(100% - 2rem), 49rem); margin-inline: auto; }
+.site-header { border-bottom: 1px solid var(--rule); background: var(--paper); }
+.masthead { min-height: 4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.brand { font-size: 1.08rem; font-weight: 750; letter-spacing: -.02em; }
+.masthead p { color: var(--muted); font-size: .875rem; }
+main { padding-block: clamp(1.5rem, 5vw, 3.5rem); }
+
+h1, h2, h3 { line-height: 1.15; margin: 0 0 .65rem; }
+h1 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -.055em; }
+h2 { font-size: 1.27rem; letter-spacing: -.02em; }
+h3 { font-size: 1rem; }
+h1:focus { outline: none; }
+.lede { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 62ch; margin-bottom: 1.35rem; }
+
+.panel { background: var(--paper); border: 1px solid var(--rule); border-radius: .75rem; padding: clamp(1rem, 3vw, 1.6rem); margin-bottom: 1rem; }
+.notice { border: 1px solid var(--rule); border-radius: .5rem; padding: .75rem 1rem; color: var(--ink); background: var(--wash); }
+.status { margin-top: 1rem; }
+.consent-text { white-space: pre-wrap; }
+#study-topics dt { font-weight: 650; }
+#study-topics dd { margin: .15rem 0 .65rem; }
+.check { display: flex; align-items: baseline; gap: .6rem; margin-block: .85rem; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); margin: 0; }
+#familiarity { border-top: 1px solid var(--rule); margin-top: 1.25rem; padding-top: 1rem; }
+.familiarity-item { border: 0; padding: 0; margin: 1rem 0; min-width: 0; }
+.familiarity-item legend { font-weight: 650; padding: 0; }
+.familiarity-item p { color: var(--muted); font-size: .9rem; margin: .25rem 0 .55rem; }
+.familiarity-item .check { margin-block: .4rem; }
+.check input { flex-shrink: 0; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; margin-top: 1.25rem; }
+button, select, textarea { font: inherit; }
+button { border: 1px solid var(--accent); border-radius: .4rem; background: var(--accent); color: white; padding: .55rem .95rem; cursor: pointer; }
+button:hover { filter: brightness(1.1); }
+button:disabled { cursor: default; opacity: .6; }
+button.secondary { background: var(--paper); color: var(--accent); }
+button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.guide p, .hint, .scope, .source, .progress { color: var(--muted); }
+.progress, .source, .hint { font-size: .875rem; }
+.progress { margin: 1.35rem 0 .65rem; font-weight: 650; }
+.criterion { font-size: .82rem; font-weight: 700; color: var(--muted); margin-bottom: .25rem; }
+.evidence { padding: .85rem 1rem; margin: .85rem 0; border-inline-start: 3px solid var(--accent); background: var(--wash); border-radius: .2rem .45rem .45rem .2rem; }
+.source { display: block; margin-top: .65rem; }
+.source + .source { margin-top: .2rem; }
+summary { color: var(--accent); font-weight: 650; cursor: pointer; width: fit-content; }
+details dl { margin-bottom: 1rem; }
+details dt { font-weight: 700; }
+details dd { margin: 0 0 .6rem; }
+details h3 { margin-top: .9rem; }
+
+.answer-pair, .choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.answer-pair > div { padding: .65rem .85rem; background: var(--wash); border-radius: .5rem; }
+.answer-pair dt, .choices label { font-weight: 650; }
+.answer-pair dd { margin: 0; }
+.choices { margin-top: 1rem; }
+.choice-definitions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; margin-top: .85rem; }
+.choice-definitions > div { background: var(--wash); border-radius: .5rem; padding: .85rem 1rem; }
+.choice-definitions dl { margin-block: .6rem 0; }
+.choice-definitions dt { font-weight: 650; }
+.choice-definitions dd { margin: .15rem 0 .65rem; }
+.choice-definitions dd:last-child { margin-bottom: 0; }
+.choice-help { margin-top: .4rem; }
+.choices select, textarea { display: block; background: var(--paper); color: var(--ink); border: 1px solid #788e82; border-radius: .35rem; width: 100%; min-height: 2.75rem; margin-top: .25rem; padding: .45rem .6rem; }
+textarea { margin-bottom: .4rem; resize: vertical; }
+table { width: 100%; border-collapse: collapse; margin-block: .55rem; font-size: .95rem; }
+td, th { padding: .32rem .45rem; text-align: left; border-bottom: 1px solid var(--rule); }
+button.term { display: inline; padding: 0; color: inherit; background: none; border: 0; border-radius: 0; text-decoration: underline dotted; text-underline-offset: .18em; }
+button.term:hover { color: var(--accent); filter: none; }
+.term-icon { display: inline-grid; place-items: center; vertical-align: .15em; width: 1.15em; height: 1.15em; border: 1px solid currentColor; border-radius: 50%; margin-inline-start: .18rem; color: var(--accent); font-size: .68em; line-height: 1; text-decoration: none; }
+.term-tip { position: fixed; z-index: 10; width: max-content; max-width: min(23rem, calc(100vw - 1.5rem)); max-height: calc(100dvh - 1.5rem); overflow: auto; background: var(--paper); border: 1px solid #788e82; border-radius: .45rem; box-shadow: 0 .3rem 1.2rem #192c2926; padding: .65rem .85rem; font-size: .9rem; }
+.term-tip p { margin-top: .15rem; }
+
+@media (max-width: 34rem) {
+  .choices, .choice-definitions { grid-template-columns: 1fr; }
+  .actions button { min-height: 2.75rem; }
+}
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="frame masthead">
+      <div class="brand">MSSurvey</div>
+      <p id="phase">Study information</p>
+    </div>
+  </header>
+  <main class="frame">
+    <p id="preview-note" class="notice" hidden>Preview mode. You can try the review here. Delivery is disabled.</p>
+    <noscript><p class="notice">Turn on JavaScript to use this survey.</p></noscript>
+
+    <section id="study">
+      <h1 tabindex="-1">MESA guided review</h1>
+      <p class="lede" id="study-lede"></p>
+      <div class="panel">
+        <h2>About this study</h2>
+        <p id="study-purpose"></p>
+        <dl id="study-topics"></dl>
+        <p id="study-steps"></p>
+        <p>The form collects your familiarity and review ratings, your study code, your consent choice, and any comment you choose to enter. Please keep names and other identifying details out of comments.</p>
+        <p id="consent-text" class="consent-text"></p>
+        <form id="enrollment">
+          <section id="familiarity" aria-labelledby="familiarity-title">
+            <h2 id="familiarity-title">Your familiarity</h2>
+          </section>
+          <label class="check"><input id="consent" type="checkbox" required> I have read the study information and agree to take part.</label>
+          <div class="actions">
+            <button type="submit">See the example</button>
+            <button type="button" class="secondary" id="load-draft">Load draft</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="example" hidden>
+      <h1 tabindex="-1">How to rate a card</h1>
+      <p class="lede">The evidence level describes what the material supports. The check outcome records what a check found within its scope.</p>
+      <p class="hint">Point to an underlined term, tap it, or focus it with your keyboard to see its definition.</p>
+      <article class="panel">
+        <h2 id="example-question"></h2>
+        <p id="example-evidence"></p>
+        <dl class="answer-pair" id="example-ratings"></dl>
+        <p id="example-explanation"></p>
+      </article>
+      <section class="panel" aria-labelledby="rating-choices-title">
+        <h2 id="rating-choices-title">Rating choices</h2>
+        <div class="choice-definitions" id="example-definitions"></div>
+      </section>
+      <div class="actions">
+        <button type="button" class="secondary" data-page="study">Back</button>
+        <button type="button" data-page="review">Review TruthfulQA</button>
+      </div>
+    </section>
+
+    <section id="review" hidden>
+      <h1 tabindex="-1">Review TruthfulQA</h1>
+      <p class="lede" id="benchmark-description"></p>
+      <section class="panel guide" aria-label="Review instructions">
+        <p>Base each rating on the material shown for that question. All six criteria apply to this review.</p>
+        <p>Use the evidence level for what the material supports and the check outcome for what a check found within the scope on the card.</p>
+        <p class="hint">Point to or tap underlined terms to see their definitions.</p>
+        <details>
+          <summary>All rating choices</summary>
+          <div class="choice-definitions" id="review-definitions"></div>
+        </details>
+      </section>
+      <p id="progress" class="progress" aria-live="polite"></p>
+      <form id="review-form">
+        <div id="cards"></div>
+        <section class="panel">
+          <h2>Feedback</h2>
+          <label for="comment" id="feedback-label"></label>
+          <textarea id="comment" maxlength="1000" rows="3" aria-describedby="feedback-hint"></textarea>
+          <p id="feedback-hint" class="hint">Optional. Leave out names and other identifying details.</p>
+        </section>
+        <div class="actions">
+          <button type="button" class="secondary" data-page="example">Back</button>
+          <button type="button" class="secondary" id="save-draft">Save draft</button>
+          <button type="submit" id="send">Submit review</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="confirmation" hidden>
+      <h1 tabindex="-1">Review complete</h1>
+      <p class="lede" id="confirmation-text"></p>
+    </section>
+
+    <p id="status" role="status" class="notice status" hidden></p>
+  </main>
+  <div class="term-tip" id="term-tip" role="tooltip" hidden></div>
+  <script type="application/json" id="survey-data">{"packet":{"survey_id":"mesa-human-review-truthfulqa","version":"1.7","rubric_version":"5.1","introduction":{"lede":"In this survey, you’ll use MESA to review an AI benchmark called TruthfulQA.","purpose":"I’m Vitor B. Raposo, a master’s student at Ontario Tech University. I’d like you to answer a few questions for my thesis. Your answers will help me understand how people use MESA to review the same evidence and where the guidance could be clearer.","topics":[{"name":"AI benchmarks","description":"An AI benchmark gives an AI system tasks and uses rules to score its answers. For example, a benchmark might measure how often a system answers questions correctly."},{"name":"MESA","description":"The Meta-Evaluation Standard for AI Benchmarks is a set of questions for reviewing how an AI test works and what its scores can tell you."},{"name":"TruthfulQA","description":"TruthfulQA asks language models questions about things people often get wrong. It checks whether the models give truthful answers or repeat common misconceptions."}],"steps":"You’ll start with three questions about AI, benchmarks, and test scores. Then you’ll see an example of how to use MESA before you rate the evidence on six TruthfulQA cards."},"familiarity":[{"id":"ai","question":"How familiar are you with AI?","help":"Think about your experience using or learning about AI, such as a chatbot. This is your own description, not a knowledge test.","labels":["1 — New to me: I have little or no experience with AI.","2 — A little familiar: I have heard about or tried AI.","3 — Somewhat familiar: I use AI sometimes and understand its basic purpose.","4 — Familiar: I use AI regularly and understand some of its limits.","5 — Very familiar: I can explain how AI is used and discuss its limits confidently."]},{"id":"benchmarks","question":"How familiar are you with AI benchmarks?","help":"An AI benchmark is a test used to assess an AI system. Think about how familiar this idea was before reading this survey.","labels":["1 — New to me: I had not heard of AI benchmarks.","2 — A little familiar: I had heard the term but could not explain it.","3 — Somewhat familiar: I knew that benchmarks test AI and produce scores.","4 — Familiar: I knew how some benchmark problems and scores are used.","5 — Very familiar: I could explain benchmarks and discuss what their scores can and cannot show."]},{"id":"scores","question":"How confident are you about interpreting AI test scores?","help":"Interpreting a score means deciding what a result tells us, such as whether two AI systems can be compared fairly. Choose how confident you feel now.","labels":["1 — Not confident: I would need help understanding a test score.","2 — Slightly confident: I understand a simple score but need help comparing results.","3 — Moderately confident: I can explain a basic score and recognize some limits.","4 — Confident: I can compare results and explain important limits.","5 — Very confident: I can explain why a comparison is fair or uncertain and what evidence is needed."]}],"benchmark":{"name":"TruthfulQA","description":"TruthfulQA tests whether a language model gives truthful answers to questions about common misconceptions. The task can use human ratings or an automated judge. The release notes also cover changes to the multiple choice task.","judgeability":"Mixed. The benchmark supports both human and automated scoring."},"levels":{"claimed":{"label":"Claimed","help":"The source says something is true but supplies only the claim."},"documented":{"label":"Documented","help":"The source gives something you can inspect, such as the scoring rule or evaluation instructions."},"verified":{"label":"Verified","help":"The source explains what a check covered, what it found, and what it could miss. The check may have passed or failed."},"contradicted":{"label":"Contradicted","help":"The material shows a problem or presents evidence that conflicts with the claim."},"undocumented":{"label":"Undocumented","help":"The material leaves out information you would need to give an evidence level."},"cannot_judge":{"label":"Cannot judge","help":"You are unsure which evidence level fits after reading the material."}},"outcomes":{"passed":{"label":"Passed","help":"The check found no problem related to the question within the part it examined."},"failed":{"label":"Failed","help":"The check found a problem related to the question within the part it examined."},"not_performed":{"label":"Not performed","help":"The material shows that the check did not take place."},"not_recorded":{"label":"Not recorded","help":"The material gives no clear check result. It may also be unclear whether the check took place."},"cannot_judge":{"label":"Cannot judge","help":"You are unsure which check outcome fits after reading the material."}},"definitions":[{"label":"MESA","aliases":["MESA"],"definition":"The Meta-Evaluation Standard for AI Benchmarks is a set of questions for reviewing how an AI test works and what its scores can tell you."},{"label":"AI benchmark","aliases":["AI benchmarks","AI benchmark","benchmarks","benchmark"],"definition":"A test used to assess an AI system. It gives the system tasks and uses rules to turn its answers into scores."},{"label":"AI system","aliases":["AI systems","AI system"],"definition":"Software that uses AI to do tasks such as answering questions or recognizing images. It can combine a model with other tools."},{"label":"Scores","aliases":["test scores","test score","scores"],"definition":"Results from a test, such as the percentage of answers marked correct. How the test is run and graded affects what its scores can tell you."},{"label":"Rubric","aliases":["rubric"],"definition":"A set of questions or criteria with rules for choosing a rating."},{"label":"Misconception","aliases":["misconceptions","misconception"],"definition":"A mistaken belief or idea."},{"label":"Evidence","aliases":["evidence"],"definition":"Information that helps you decide whether a claim is supported. In this survey, it comes from passages and results about TruthfulQA."},{"label":"Evidence level","aliases":["evidence level","evidence levels"],"definition":"A label for what the supplied material supports. The label can describe a claim, a method, a reported check, a conflict, or missing information."},{"label":"Check outcome","aliases":["check outcome","check outcomes"],"definition":"A label for what a check found. Use the result within the part of the benchmark the check examined."},{"label":"Check","aliases":["check"],"definition":"A procedure used to test a claim or look for a problem."},{"label":"Scope","aliases":["scope"],"definition":"The part of the benchmark you should rate for this card. It may be one task, version, group of answers, or testing setup."},{"label":"Criterion","aliases":["criterion","criteria"],"definition":"One question MESA asks about a benchmark, such as how its scoring works."},{"label":"Scoring rule","aliases":["scoring rule"],"definition":"How answers are turned into a score. For example, a rule may give one point for each correct answer."},{"label":"Scoring implementation","aliases":["scoring implementation"],"definition":"The code or procedure that applies the scoring rule to actual answers."},{"label":"Metric","aliases":["metric"],"definition":"A number used to measure something, such as the percentage of answers judged true."},{"label":"Prompt","aliases":["prompts","prompt"],"definition":"The question, instructions, or examples given to a language model before it answers."},{"label":"Informativeness","aliases":["informativeness"],"definition":"How much information an answer gives about the question."},{"label":"Automated judge","aliases":["automated judge","automated scoring"],"definition":"A program or AI model that rates answers using a rule or examples."},{"label":"GPT-judge","aliases":["GPT-judge"],"definition":"TruthfulQA’s automated judge, trained to predict whether a human reviewer would mark an answer true or false."},{"label":"Validation accuracy","aliases":["validation accuracy"],"definition":"Here, the share of answers for which GPT-judge and the human reviewer gave the same label in a check."},{"label":"Validation","aliases":["validation samples","validation setup","validated","validation"],"definition":"A check of how well something works. Here, the authors compared the judge’s ratings with ratings from people."},{"label":"Human baseline","aliases":["human baseline","baseline scores"],"definition":"A result used as a point of comparison. A human baseline comes from people’s answers."},{"label":"Model family","aliases":["model family","held out family"],"definition":"A group of related models, often with different sizes. A held out family is set aside for testing."},{"label":"Training set","aliases":["training set"],"definition":"Examples used to teach a model before testing it on other examples."},{"label":"Sampling","aliases":["sampling settings"],"definition":"Generating answers from a model’s predictions. Settings can change how much the answers vary across attempts."},{"label":"Token","aliases":["token"],"definition":"A piece of text a model works with, such as a word, part of a word, or punctuation."},{"label":"Temperature","aliases":["temperature"],"definition":"A setting for how a model picks the next piece of text. At zero it usually picks the most likely one. Higher values allow more variety."},{"label":"Token log probability","aliases":["token log probability"],"definition":"A number based on how likely the model thought a piece of text was. A higher number means the model considered that piece more likely."},{"label":"Score uncertainty","aliases":["score uncertainty","measure of uncertainty","uncertainty"],"definition":"How much a score estimate could vary. An interval or a range across repeats can help show this."},{"label":"Sample size","aliases":["sample size"],"definition":"The number of observations used to calculate a result, such as the number of answers or runs."},{"label":"Statistical power","aliases":["statistical power"],"definition":"The chance that a study would detect an effect of a given size if that effect were real."},{"label":"Statistical significance","aliases":["statistical significance","significance"],"definition":"Whether a result meets a rule for counting as evidence against a given assumption, such as no difference between two scores."},{"label":"Repository snapshot","aliases":["repository snapshot"],"definition":"A copy of the files in a repository at a specific version."},{"label":"README","aliases":["README"],"definition":"A file that describes a project and often explains how to set it up or use it."},{"label":"CSV file","aliases":["CSV file"],"definition":"A text file that stores a table, typically with commas separating the columns."},{"label":"Dependencies","aliases":["dependencies"],"definition":"Other software or libraries that a program needs to run."},{"label":"Flags","aliases":["flags"],"definition":"Options passed to a program when it starts, such as which model to use or where to save results."},{"label":"API key","aliases":["API key"],"definition":"A credential a program uses to access a service."},{"label":"Fine tuning","aliases":["fine-tuned models","fine-tuned"],"definition":"Training an existing model further on examples for a particular task."},{"label":"Labeled model outputs","aliases":["labeled model outputs"],"definition":"Model answers with a recorded judgment for each, such as true or false."},{"label":"Release identifier","aliases":["release identifier"],"definition":"A name, number, or date used to identify a specific version."},{"label":"Reference answer","aliases":["reference answers","reference answer"],"definition":"An answer supplied with the test for comparison with what a model wrote."}],"example":{"question":"Did the scorer accept a wrong answer?","evidence":"A reviewer checked 10 responses to a practice test by comparing each one with an answer key. The scoring program accepted two responses that the answer key marked wrong. The reviewer used only these 10 responses and did not test other answer formats.","level":"verified","outcome":"failed","explanation":"The evidence level is Verified because the report explains how the check worked, which answers it covered, and its limits. The check outcome is Failed because the scorer accepted two wrong answers."},"feedback_prompt":"Which rating was hardest to choose, and why?","cards":[{"id":"truthfulqa-b06","criterion":"B06","title":"Scoring rule","question":"Is the scoring rule described?","documented":"The metric and how to judge the answer are stated, including the expected answer format.","verified":"The scoring rule addresses cases such as partial answers, unexpected formats, or refusals.","scope":"Human scoring of generated answers in the original paper.","evidence":["A model generates a full sentence from a prompt and a question. Human evaluators judge truthfulness and informativeness. Each score is the percentage of responses a human judged to be true or informative, respectively."],"sources":["generation"]},{"id":"truthfulqa-b07","criterion":"B07","title":"Scoring checks","question":"Was the scoring implementation checked, and can it accept a wrong answer?","documented":"The scoring implementation can be inspected and compared with the rule.","verified":"A scorer or judge is validated against a reference, with the check and its limits reported.","scope":"GPT-judge on the validation samples shown here. The survey excludes zero tasks from the stated scope.","evidence":["The authors trained GPT-judge to predict human labels for generated answers. They report 90–96% validation accuracy across the models tested. They also tested it on the answers from their human baseline, which was absent from the judge's training set. It matched the human labels on 89.5% of those answers.","For each model family in one validation setup, they trained the judge on the other families and tested it on the held out family. In the appendix, the authors give examples where the judge marked an answer false that a human evaluator had marked true."],"sources":["judge_results","judge_appendix"]},{"id":"truthfulqa-b10","criterion":"B10","title":"Repeat testing","question":"Is variation on repeated testing reported?","documented":"The source reports repeated runs or an estimate of variation.","verified":"The source shows how testing was repeated and what the repeats found.","scope":"Generated GPT-3 answers under the sampling settings described in these passages.","evidence":["The main evaluation generates each answer by choosing the most likely next token at each step, with temperature set to zero.","A separate experiment sets temperature to one and uses GPT-judge to score answers. It compares model sizes and prompts. One setting draws one response per question. Another draws 20 and selects the response with the highest average token log probability. The authors report the same trend of lower truthfulness at larger model sizes."],"sources":["generation","temperatures"]},{"id":"truthfulqa-b12","criterion":"B12","title":"Score uncertainty","question":"Are uncertainty and statistical support reported for the scores shown here?","documented":"The source gives the sample size and a measure of uncertainty for the scores in scope.","verified":"The source gives reasoning about statistical power or significance.","scope":"The original GPT-3 generation truthfulness scores in the top panel of Figure 2.","evidence":["Figure 2 displays one bar per model size for the average percentage of answers judged true. The table shows the matching GPT-3 percentages from the appendix."],"table":{"headers":["GPT-3 size","Answers judged true"],"rows":[["350M","37.0%"],["1.3B","31.9%"],["6.7B","23.6%"],["175B","20.4%"]]},"sources":["truthfulness_scores","score_table"]},{"id":"truthfulqa-b18","criterion":"B18","title":"Repeating the evaluation","question":"Are materials and instructions for repeating the evaluation provided?","documented":"The code, data, environment, and steps needed to repeat the evaluation are available.","verified":"The source reports that the authors or someone else repeated the evaluation.","scope":"The generation task and evaluation tools in the repository snapshot.","evidence":["The README points to the questions and references in a CSV file. It gives commands to install dependencies and the package, and lists flags for using the evaluation script to produce answers and scores.","For GPT-judge, the README says users need an API key and the names of their fine-tuned models. It says the authors cannot provide external access to their fine-tuned models or labeled model outputs."],"sources":["readme_setup","readme_judge"]},{"id":"truthfulqa-b20","criterion":"B20","title":"Release changes","question":"Are versions and changes recorded?","documented":"The source gives a release identifier or name.","verified":"The source records changes and their effect on comparisons.","scope":"The October 2021 and January 2025 updates described in the repository snapshot.","evidence":["In October 2021, the maintainers added about 300 reference answers. They report that these answers affect only automatic scoring and had little impact on the performance of models they tested. The README identifies where to find the original version and gives its baseline scores.","In January 2025, the maintainers added a multiple choice version with two options per question. They edited some questions and removed others, including a category about facts that change over time. The README says most models perform similarly on the old and new multiple choice versions."],"sources":["readme_updates"]}]},"manifest":{"rubric_sha256":"023058fcfa3190a5ab17b55f71990d33c661b0c606a6f76b9b55d46611420cdf","snapshot_commit":"d71c110897f5d31c5d7f309e7bc316c152f6f031","documents":{"paper":{"label":"Lin et al., TruthfulQA paper","url":"https://arxiv.org/pdf/2109.07958","sha256":"6e86175861d24d075bbd8fec987cbdabd0d6332700b001a1ccf335fa72f541b2"},"readme":{"label":"TruthfulQA repository README","url":"https://github.com/sylinrl/TruthfulQA/blob/d71c110897f5d31c5d7f309e7bc316c152f6f031/README.md","sha256":"23834ca77c34e909cbdcceeaea89135c65b713a5d0c77be6bced7a637763ea44"}},"locators":{"generation":{"document":"paper","location":"§3.2, PDF pp. 5–6"},"judge_results":{"document":"paper","location":"§4.4, PDF p. 8"},"judge_appendix":{"document":"paper","location":"Appendix B.1, PDF pp. 16–17 and Table 3, PDF p. 20"},"temperatures":{"document":"paper","location":"Appendix B.8 and Figure 19, PDF p. 30"},"truthfulness_scores":{"document":"paper","location":"§4.2, PDF pp. 6–7 and Figure 2, PDF p. 3"},"score_table":{"document":"paper","location":"Appendix B.2, Table 4, PDF p. 21"},"readme_setup":{"document":"readme","location":"Lines 23–24 and 85–123"},"readme_judge":{"document":"readme","location":"Lines 123 and 125–133"},"readme_updates":{"document":"readme","location":"Lines 135–148"}}},"consent":null,"fingerprint":"2090e62e9ffacc624c1c05cbb8762285ee74c55d907868ff13679bf164c79f7d","endpoint":null}</script>
+  <script>
+"use strict";
+
+const byId = (id) => document.getElementById(id);
+const { packet, manifest, fingerprint, consent, endpoint } = JSON.parse(byId("survey-data").textContent);
+const inputCode = new URLSearchParams(location.hash.slice(1)).get("code");
+const studyCode = /^(?:test-)?[a-f0-9]{32}$/.test(inputCode || "") ? inputCode : "";
+const draftKey = [packet.survey_id, packet.version, fingerprint, studyCode || "preview"].join(":");
+const pageNames = { study: "Study information", example: "Example", review: "Review", confirmation: "Complete" };
+const fields = { level: packet.levels, outcome: packet.outcomes };
+const labels = { level: "Evidence level", outcome: "Check outcome" };
+const choiceQuestions = { level: "What does the material support?", outcome: "What did the check find?" };
+const enrollment = byId("enrollment");
+const reviewForm = byId("review-form");
+const send = byId("send");
+const comment = byId("comment");
+const termTip = byId("term-tip");
+const termDefinitions = new Map(packet.definitions.flatMap((item) => (
+  item.aliases.map((alias) => [alias.toLowerCase(), item])
+)));
+const termPattern = new RegExp("\\b(?:" + [...termDefinitions.keys()]
+  .sort((first, second) => second.length - first.length)
+  .map((alias) => alias.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&")).join("|") + ")\\b", "gi");
+
+let currentPage = "study";
+let sending = false;
+let accepted = false;
+let attempt = null;
+let termAnchor = null;
+let definitionPinned = false;
+let definitionTimer;
+
+function element(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+
+function annotateTerms(root) {
+  const seen = new Set();
+  const textNodes = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => node.parentElement.closest("h1, button, label, select, summary, dt, .choice-help, .source, #consent-text")
+      ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+  });
+  const candidates = [];
+  while (textNodes.nextNode()) candidates.push(textNodes.currentNode);
+  for (const node of candidates) {
+    const text = node.textContent;
+    const matches = [...text.matchAll(termPattern)].filter(([term]) => {
+      const { label } = termDefinitions.get(term.toLowerCase());
+      if (seen.has(label)) return false;
+      seen.add(label);
+      return true;
+    });
+    if (!matches.length) continue;
+    const fragment = document.createDocumentFragment();
+    let start = 0;
+    for (const match of matches) {
+      const [word] = match;
+      const button = element("button", word, "term");
+      button.type = "button";
+      button.dataset.term = word.toLowerCase();
+      button.setAttribute("aria-label", word + ", show definition");
+      const icon = element("span", "?", "term-icon");
+      icon.setAttribute("aria-hidden", "true");
+      button.append(icon);
+      fragment.append(text.slice(start, match.index), button);
+      start = match.index + word.length;
+    }
+    fragment.append(text.slice(start));
+    node.replaceWith(fragment);
+  }
+}
+
+function closeDefinition() {
+  clearTimeout(definitionTimer);
+  termAnchor?.removeAttribute("aria-describedby");
+  termAnchor = null;
+  definitionPinned = false;
+  termTip.hidden = true;
+}
+
+function positionDefinition() {
+  if (!termAnchor) return;
+  const anchor = termAnchor.getBoundingClientRect();
+  if (anchor.bottom <= 0 || anchor.top >= innerHeight) {
+    closeDefinition();
+    return;
+  }
+  const { width, height } = termTip.getBoundingClientRect();
+  const preferredTop = anchor.bottom + height + 20 <= innerHeight ? anchor.bottom + 8 : anchor.top - height - 8;
+  termTip.style.top = Math.max(12, Math.min(preferredTop, innerHeight - height - 12)) + "px";
+  termTip.style.left = Math.max(12, Math.min(anchor.left, innerWidth - width - 12)) + "px";
+}
+
+function showDefinition(button, pin = false) {
+  clearTimeout(definitionTimer);
+  termAnchor?.removeAttribute("aria-describedby");
+  termAnchor = button;
+  definitionPinned = pin;
+  const { label, definition } = termDefinitions.get(button.dataset.term);
+  termTip.replaceChildren(element("strong", label), element("p", definition));
+  termTip.hidden = false;
+  button.setAttribute("aria-describedby", termTip.id);
+  positionDefinition();
+}
+
+function deferDefinitionClose() {
+  clearTimeout(definitionTimer);
+  definitionTimer = setTimeout(() => {
+    if (termAnchor && !definitionPinned && !termTip.matches(":hover")
+        && !termAnchor.matches(":hover, :focus")) closeDefinition();
+  }, 160);
+}
+
+function setStatus(message) {
+  const status = byId("status");
+  status.hidden = !message;
+  status.textContent = message;
+}
+
+function showPage(page) {
+  closeDefinition();
+  for (const id of Object.keys(pageNames)) byId(id).hidden = id !== page;
+  byId("phase").textContent = pageNames[page];
+  currentPage = page;
+  setStatus("");
+  window.scrollTo(0, 0);
+  byId(page).querySelector("h1").focus({ preventScroll: true });
+}
+
+function renderFamiliarity({ id, question, help, labels }) {
+  const name = "familiarity-" + id;
+  const field = element("fieldset", undefined, "familiarity-item");
+  const description = element("p", help);
+  description.id = name + "-help";
+  field.setAttribute("aria-describedby", description.id);
+  field.append(element("legend", question), description);
+  for (const [index, text] of labels.entries()) {
+    const label = element("label", undefined, "check");
+    const input = element("input");
+    input.type = "radio";
+    input.name = name;
+    input.value = index + 1;
+    input.id = name + "-" + input.value;
+    input.required = true;
+    label.append(input, element("span", text));
+    field.append(label);
+  }
+  return field;
+}
+
+function renderExample() {
+  const { example } = packet;
+  byId("example-question").textContent = example.question;
+  byId("example-evidence").textContent = example.evidence;
+  byId("example-explanation").textContent = example.explanation;
+  for (const [field, options] of Object.entries(fields)) {
+    const pair = element("div");
+    pair.append(element("dt", labels[field]), element("dd", options[example[field]].label));
+    byId("example-ratings").append(pair);
+  }
+}
+
+function renderDefinitions(target) {
+  for (const [field, options] of Object.entries(fields)) {
+    const group = element("div");
+    const list = element("dl");
+    for (const { label, help } of Object.values(options)) {
+      list.append(element("dt", label), element("dd", help));
+    }
+    group.append(element("h3", labels[field]), element("p", choiceQuestions[field], "hint"), list);
+    target.append(group);
+  }
+}
+
+function renderTable({ headers, rows }) {
+  const table = element("table");
+  table.createTHead().insertRow().append(...headers.map((header) => {
+    const th = element("th", header);
+    th.scope = "col";
+    return th;
+  }));
+  const body = table.createTBody();
+  for (const row of rows) body.insertRow().append(...row.map((cell) => element("td", cell)));
+  return table;
+}
+
+function renderCard(card) {
+  const article = element("article", undefined, "panel");
+  const scope = element("p", undefined, "scope");
+  scope.append(element("strong", "Scope "), card.scope);
+  article.append(
+    element("p", card.criterion + " · " + card.title, "criterion"),
+    element("h2", card.question),
+    scope,
+  );
+
+  const evidence = element("div", undefined, "evidence");
+  evidence.append(...card.evidence.map((paragraph) => element("p", paragraph)));
+  if (card.table) evidence.append(renderTable(card.table));
+  for (const source of card.sources) {
+    const { document, location } = manifest.locators[source];
+    const citation = manifest.documents[document].label + " · " + location;
+    evidence.append(element("span", citation, "source"));
+  }
+  article.append(evidence);
+
+  const guide = element("details");
+  const guideText = element("dl");
+  guideText.append(
+    element("dt", "Documented"), element("dd", card.documented),
+    element("dt", "Verified"), element("dd", card.verified),
+  );
+  guide.append(element("summary", "What counts for this criterion"), guideText);
+  article.append(guide);
+
+  const choices = element("div", undefined, "choices");
+  for (const [field, options] of Object.entries(fields)) {
+    const group = element("div");
+    const label = element("label", labels[field]);
+    const select = element("select");
+    select.id = card.criterion + "-" + field;
+    select.setAttribute("aria-label", card.criterion + " " + labels[field]);
+    select.required = true;
+    select.add(new Option("Choose an answer", ""));
+    for (const [value, { label }] of Object.entries(options)) select.add(new Option(label, value));
+    const help = element("p", choiceQuestions[field], "hint choice-help");
+    help.id = select.id + "-help";
+    select.setAttribute("aria-describedby", help.id);
+    label.htmlFor = select.id;
+    group.append(label, select, help);
+    choices.append(group);
+  }
+  article.append(choices);
+  return article;
+}
+
+function getRatings() {
+  return packet.cards.map(({ criterion, id }) => ({
+    criterion,
+    card_id: id,
+    level: byId(criterion + "-level").value,
+    outcome: byId(criterion + "-outcome").value,
+  }));
+}
+
+function getFamiliarity() {
+  return Object.fromEntries(packet.familiarity.map(({ id }) => [
+    id, Number(enrollment.elements.namedItem("familiarity-" + id).value),
+  ]));
+}
+
+function updateProgress() {
+  const ratings = getRatings();
+  const count = ratings.filter(({ level, outcome }) => level && outcome).length;
+  byId("progress").textContent = count + " of " + packet.cards.length + " cards rated";
+  for (const rating of ratings) {
+    for (const [field, options] of Object.entries(fields)) {
+      byId(rating.criterion + "-" + field + "-help").textContent =
+        options[rating[field]]?.help ?? choiceQuestions[field];
+    }
+  }
+}
+
+function saveDraft() {
+  try {
+    const state = accepted ? { accepted: true } : {
+      familiarity: getFamiliarity(),
+      consented: byId("consent").checked,
+      page: currentPage,
+      ratings: getRatings(),
+      comment: comment.value,
+      attempt,
+    };
+    localStorage.setItem(draftKey, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function showConfirmation() {
+  accepted = true;
+  byId("confirmation-text").textContent = "FormSubmit accepted your response. Thank you for taking part.";
+  showPage("confirmation");
+}
+
+function loadDraft() {
+  try {
+    const state = JSON.parse(localStorage.getItem(draftKey));
+    if (!state) {
+      setStatus("There is no saved draft for this survey in this browser.");
+      return;
+    }
+    if (state.accepted === true && endpoint && studyCode) {
+      showConfirmation();
+      return;
+    }
+    const validRatings = Array.isArray(state.ratings) && state.ratings.length === packet.cards.length
+      && state.ratings.every(({ criterion, card_id, level, outcome }, index) => {
+        const card = packet.cards[index];
+        return criterion === card.criterion && card_id === card.id
+          && (level === "" || Object.hasOwn(fields.level, level))
+          && (outcome === "" || Object.hasOwn(fields.outcome, outcome));
+      });
+    const validFamiliarity = packet.familiarity.every(({ id, labels }) => {
+      const score = state.familiarity?.[id];
+      return Number.isInteger(score) && score >= 1 && score <= labels.length;
+    });
+    if (!validFamiliarity || state.consented !== true || state.page !== "review"
+        || !validRatings || typeof state.comment !== "string" || state.comment.length > 1000) {
+      throw new Error("Invalid draft");
+    }
+    for (const { id } of packet.familiarity) {
+      enrollment.elements.namedItem("familiarity-" + id).value = String(state.familiarity[id]);
+    }
+    byId("consent").checked = true;
+    for (const { criterion, level, outcome } of state.ratings) {
+      byId(criterion + "-level").value = level;
+      byId(criterion + "-outcome").value = outcome;
+    }
+    comment.value = state.comment;
+    const saved = state.attempt;
+    if (saved && /^[a-f0-9-]{36}$/.test(saved.id) && typeof saved.signature === "string") attempt = saved;
+    updateProgress();
+    showPage("review");
+    setStatus("Draft loaded.");
+  } catch {
+    setStatus("This draft could not be loaded.");
+  }
+}
+
+async function submitReview(event) {
+  event.preventDefault();
+  if (sending || accepted || !enrollment.checkValidity() || !reviewForm.reportValidity()) return;
+  if (!endpoint) {
+    setStatus("Preview complete. Delivery is disabled.");
+    return;
+  }
+  if (!studyCode || location.protocol !== "https:") {
+    setStatus("Open your HTTPS invitation link to submit your review.");
+    return;
+  }
+
+  const familiarity = JSON.stringify(getFamiliarity());
+  const ratings = JSON.stringify(getRatings());
+  const note = comment.value.trim();
+  const signature = JSON.stringify([familiarity, ratings, note]);
+  if (attempt?.signature !== signature) {
+    attempt = { id: crypto.randomUUID(), signature };
+  }
+  const payload = {
+    _subject: studyCode.startsWith("test-") ? "TEST MSSurvey TruthfulQA" : "MSSurvey TruthfulQA",
+    _template: "table",
+    study_code: studyCode,
+    submission_id: attempt.id,
+    survey_id: packet.survey_id,
+    survey_version: packet.version,
+    rubric_version: packet.rubric_version,
+    packet_sha256: fingerprint,
+    consent: "agreed",
+    familiarity,
+    ratings,
+    comment: note,
+  };
+
+  sending = true;
+  for (const control of reviewForm.elements) control.disabled = true;
+  const saved = saveDraft();
+  setStatus("Sending your review…");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+      credentials: "omit",
+      redirect: "error",
+    });
+    const result = await response.json();
+    if (!response.ok || ![true, "true"].includes(result?.success)) throw new Error("Delivery unconfirmed");
+    showConfirmation();
+    saveDraft();
+  } catch {
+    setStatus(saved
+      ? "Delivery could not be confirmed. Your answers are saved in this browser. Check with the organizer before retrying."
+      : "Delivery could not be confirmed. Keep this page open to keep your answers. Check with the organizer before retrying.");
+  } finally {
+    clearTimeout(timeout);
+    sending = false;
+    for (const control of reviewForm.elements) control.disabled = false;
+  }
+}
+
+byId("preview-note").hidden = Boolean(endpoint);
+byId("study-lede").textContent = packet.introduction.lede;
+byId("study-purpose").textContent = packet.introduction.purpose;
+byId("study-topics").append(...packet.introduction.topics.flatMap(({ name, description }) => [
+  element("dt", name), element("dd", description),
+]));
+byId("study-steps").textContent = packet.introduction.steps;
+byId("consent-text").textContent = consent || "This preview keeps responses in your browser if you save a draft.";
+byId("familiarity").append(...packet.familiarity.map(renderFamiliarity));
+byId("benchmark-description").textContent = packet.benchmark.description;
+byId("feedback-label").textContent = packet.feedback_prompt;
+byId("cards").append(...packet.cards.map(renderCard));
+renderExample();
+renderDefinitions(byId("example-definitions"));
+renderDefinitions(byId("review-definitions"));
+for (const root of document.querySelectorAll("#study, #example, #review > .lede, #review > .guide, #cards article")) {
+  annotateTerms(root);
+}
+updateProgress();
+
+document.addEventListener("pointerover", (event) => {
+  const term = event.target.closest(".term");
+  if (event.pointerType !== "touch" && term && event.relatedTarget?.closest?.(".term") !== term
+      && (!definitionPinned || term === termAnchor)) showDefinition(term, definitionPinned);
+});
+document.addEventListener("pointerout", (event) => {
+  const term = event.target.closest(".term");
+  if (term && event.relatedTarget?.closest?.(".term") !== term) deferDefinitionClose();
+});
+termTip.addEventListener("pointerenter", () => clearTimeout(definitionTimer));
+termTip.addEventListener("pointerleave", deferDefinitionClose);
+document.addEventListener("focusin", (event) => {
+  if (event.target.matches(".term")) showDefinition(event.target, definitionPinned && event.target === termAnchor);
+  else if (!definitionPinned) closeDefinition();
+});
+document.addEventListener("click", (event) => {
+  const term = event.target.closest(".term");
+  if (term && !(definitionPinned && term === termAnchor)) showDefinition(term, true);
+  else if (!event.target.closest("#term-tip")) closeDefinition();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeDefinition();
+});
+window.addEventListener("resize", positionDefinition);
+window.addEventListener("scroll", positionDefinition, { passive: true });
+
+enrollment.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (endpoint && !studyCode) {
+    setStatus("Open the survey using the link in your invitation.");
+    return;
+  }
+  showPage("example");
+});
+for (const button of document.querySelectorAll("[data-page]")) {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+}
+byId("save-draft").addEventListener("click", () => {
+  setStatus(saveDraft() ? "Draft saved in this browser." : "This browser could not save the draft.");
+});
+byId("load-draft").addEventListener("click", loadDraft);
+reviewForm.addEventListener("change", updateProgress);
+reviewForm.addEventListener("submit", submitReview);
+window.addEventListener("hashchange", () => location.reload());
+
+try {
+  if (endpoint && studyCode && JSON.parse(localStorage.getItem(draftKey))?.accepted === true) {
+    showConfirmation();
+  }
+} catch {
+  // The form still works when browser storage is unavailable.
+}
+
+  </script>
+</body>
+</html>

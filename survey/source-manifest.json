@@ -1,0 +1,27 @@
+{
+  "rubric_sha256": "023058fcfa3190a5ab17b55f71990d33c661b0c606a6f76b9b55d46611420cdf",
+  "snapshot_commit": "d71c110897f5d31c5d7f309e7bc316c152f6f031",
+  "documents": {
+    "paper": {
+      "label": "Lin et al., TruthfulQA paper",
+      "url": "https://arxiv.org/pdf/2109.07958",
+      "sha256": "6e86175861d24d075bbd8fec987cbdabd0d6332700b001a1ccf335fa72f541b2"
+    },
+    "readme": {
+      "label": "TruthfulQA repository README",
+      "url": "https://github.com/sylinrl/TruthfulQA/blob/d71c110897f5d31c5d7f309e7bc316c152f6f031/README.md",
+      "sha256": "23834ca77c34e909cbdcceeaea89135c65b713a5d0c77be6bced7a637763ea44"
+    }
+  },
+  "locators": {
+    "generation": {"document": "paper", "location": "§3.2, PDF pp. 5–6"},
+    "judge_results": {"document": "paper", "location": "§4.4, PDF p. 8"},
+    "judge_appendix": {"document": "paper", "location": "Appendix B.1, PDF pp. 16–17 and Table 3, PDF p. 20"},
+    "temperatures": {"document": "paper", "location": "Appendix B.8 and Figure 19, PDF p. 30"},
+    "truthfulness_scores": {"document": "paper", "location": "§4.2, PDF pp. 6–7 and Figure 2, PDF p. 3"},
+    "score_table": {"document": "paper", "location": "Appendix B.2, Table 4, PDF p. 21"},
+    "readme_setup": {"document": "readme", "location": "Lines 23–24 and 85–123"},
+    "readme_judge": {"document": "readme", "location": "Lines 123 and 125–133"},
+    "readme_updates": {"document": "readme", "location": "Lines 135–148"}
+  }
+}
