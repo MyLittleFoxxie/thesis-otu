@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Masters/Doctoral Thesis 
+% Masters/Doctoral Thesis
 % LaTeX Template
 %
 % This template was downloaded from:
@@ -39,7 +39,7 @@ consistentlayout, % Comment out to change the layout of the declaration, abstrac
 liststotoc,
 ]{MastersDoctoralThesis} % The class file specifying the document structure
 
-%%%%%%%%%%%%%%%%%%%%GET RID OF RULERS IN DRAFT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%e
+%%%%%%%%%%%%%%%%%%%%GET RID OF RULERS IN DRAFT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %used at the start of the document before documentclass declaration
 %\PassOptionsToPackage{draft=false, global}{scrlayer-scrpage}
 
@@ -50,9 +50,9 @@ liststotoc,
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
 %%%%%%%%%%%%%%%%%%%%BIBLIOGRAPHY%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[backend=bibtex,style=numeric,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+\usepackage[backend=bibtex,style=numeric,natbib=true]{biblatex} % Use the bibtex backend with the numeric citation style
 %\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
-\addbibresource{BibFiles/examplebib.bib} % The filename of the bibliography
+\addbibresource{BibFiles/references.bib} % The filename of the bibliography
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -74,42 +74,42 @@ liststotoc,
   \monthname[\THEMONTH] \THEYEAR}
 \newdateformat{yeardate}{%
 	\THEYEAR}
-	
+
 %----------------------------------------------------------------------------------------
 %	CUSTOM Packages and Commands - not required
 %----------------------------------------------------------------------------------------
 %those are NOT needed to compile the document, unless of course you are using some of the commands
-\include{Frontmatter/customPackages}
+\input{Frontmatter/customPackages}
 
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Title of Master's/Doctoral Thesis} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
-\supervisor{Supervisor Name} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\thesistitle{Benchmark Evidence for Software Requirement Decisions} % TODO: confirm final thesis title
+\supervisor{Supervisor Name} % TODO: replace with your supervisor's name
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
-\degree{Degree Name in Program Name} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
-\author{First Name Last Name} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
+\degree{Degree Name in Program Name} % TODO: replace with your degree and program name
+\author{Vitor Raposo} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
 \addresses{Oshawa, Ontario, Canada} % Your address, this is used in the title page and abstract, print it elsewhere with \addressname
-\subject{} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
-\keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\subject{Requirements Engineering, Artificial Intelligence Benchmarks, Empirical Software Engineering} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
+\keywords{Requirements Engineering for AI, AI Benchmarks, Benchmark Validity, MESA, Acceptance Testing, Coding Agents, SWE-bench, Evidence-Based Decisions} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
 \university	{University of Ontario Institute of Technology}	% University's legal name, this is used in the title page and abstract, print it elsewhere with \univname
 \newcommand{\universitybrand}{(Ontario Tech University)} % University's short (brand) name, used on the title page below the legal name
-\faculty{Faculty Name} % This is used on the title page, print it elsewhere with \facname
-\department{Dept Name} % Not used on the title page, print elsewhere with \deptname
-\group {Research Group Name} % Your research group's name and URL, this is not used in the title page, print it elsewhere with \groupname
+\faculty{Faculty Name} % TODO: replace with your faculty name
+\department{Dept Name} % TODO: replace with your department name
+\group {Research Group Name} % TODO: replace with your research group name
 
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION - required
 %----------------------------------------------------------------------------------------
-\include{Frontmatter/thesisInfo}
+\input{Frontmatter/thesisInfo}
 %----------------------------------------------------------------------------------------
 %	START THE DOCUMENT
 %----------------------------------------------------------------------------------------
-%This is how to compile only one chapter: 
-%\includeonly{Chapters/explanations,Frontmatter/customPackages,Frontmatter/customFormatting}
+%This is how to compile only one chapter:
+%\includeonly{Chapters/Chapter1,Frontmatter/customPackages,Frontmatter/customFormatting}
 \begin{document}
-%some custom formatting commands - only required in the explanations chapter (you can take both out)
+%some custom formatting commands
 \include{Frontmatter/customFormatting}
 %----------------------------------------------------------------------------------------
 %	TITLEPAGE
@@ -143,12 +143,12 @@ liststotoc,
 \pagestyle{thesis} % Return the page headers back to the "thesis" style
 
 % Include the chapters of the thesis as separate files from the Chapters folder
-% Uncomment the lines as you write the chapters
-%The first chapter includes explanations on how to use this template
 \include{Chapters/Chapter1}
-\include{Chapters/Chapter2} 
+\include{Chapters/Chapter2}
 \include{Chapters/Chapter3}
 \include{Chapters/Chapter4}
+\include{Chapters/Chapter5}
+\include{Chapters/Chapter6}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -156,9 +156,7 @@ liststotoc,
 
 \printbibliography[heading=bibintoc]
 
-\listoftodos
-
-%----------------------------------------------------------------------------------------
+\listoftodos % Comment out before final submission
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -167,12 +165,8 @@ liststotoc,
 \appendix % Cue to tell LaTeX that the following "chapters" are Appendices
 
 % Include the appendices of the thesis as separate files from the Appendices folder
-% Uncomment the lines as you write the Appendices
-
 \include{Appendices/AppendixA}
 \include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
-
-
 
 \end{document}

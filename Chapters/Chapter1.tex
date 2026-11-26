@@ -1,15 +1,59 @@
-\chapter{Introduction} % Main chapter title
+\chapter{Introduction}
+\label{ch:introduction}
 
-\section{Appropriate Section Title}
-<type here>
-\subsection{Subheading}
-<type here>
+Software teams can use a coding agent to draft fixes for bugs in a project. A coding agent reads a report, inspects the project's code, and proposes changes. Before choosing an agent, a team needs evidence that the agent can do the work the team intends to give it. A benchmark offers one source of evidence. It gives agents a set of tasks under stated conditions and uses a scoring procedure to compare their performance~\cite{jimenez_swebench_2024,hu_se_benchmarks_2025}. A team can consult those results before running its own tests. The decision depends on what the benchmark measured and how closely its tasks, scoring, and conditions fit the team's requirement.
 
-\section{Appropriate Section Title}
-<type here>
-\subsection{Subheading}
-<type here>
-\section{Reference}
+\section{Context and Motivation}
+\label{sec:intro_motivation}
 
-\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+Consider a team that wants a coding agent to draft bug fixes for SymPy, a Python library for symbolic mathematics. The team will review the changes before merging them. It wants an agent that resolves at least 70\% of the bug reports it receives under specified conditions. One place to look for evidence is \swebench{}, a benchmark that draws tasks from GitHub issues and uses tests from the projects to score the fixes~\cite{jimenez_swebench_2024,openai_swebench_verified_2024}. In the study in Chapter~\ref{ch:decisions}, the agent resolved 35 of 44 SymPy tasks from the benchmark, or 79.5\%.
 
+There are two questions behind that result. First, what did the tests count as a fix? A report can ask for two changes in behavior while the tests check only one. A patch that fixes one part can then receive full credit. Audits of coding benchmarks have found cases in which patches passed the tests while leaving part of the issue unresolved~\cite{yu_utboost_2025,wang_solved_issues_2026}. Second, how much does a result on 44 tasks tell the team about the rate it could expect on other tasks? Under the rule used in Chapter~\ref{ch:decisions}, 35 fixes give a one sided 95\% lower confidence bound of 67.0\%. The lower bound falls below the 70\% requirement, so the score alone leaves the decision inconclusive.
+
+A team may also need evidence about the benchmark's conditions. The test system can hide the expected answers and control what the agent can change. The benchmark report may describe which forms of prior exposure the authors looked for and what they found. Each of these details can affect the meaning of a score~\cite{reuel_betterbench,zhu_agentic_benchmark_checklist_2025,nist_ai_800_2_2026}. When the report leaves a detail out, the reviewer has a question to resolve. When an inspection or test shows a defect, the reviewer can record the affected tasks and investigate its effect. Those two findings give a team different reasons to ask for more evidence.
+
+\section{Problem Statement}
+\label{sec:intro_problem}
+
+\paragraph{Comparing benchmark reviews.}
+Benchmark review frameworks overlap in what they examine, but they divide topics into questions and score the answers in different ways. One guide may ask whether the authors justify a calculation. Another may also ask for the number of observations and a measure of uncertainty. When those details are absent, one framework can give partial credit and another can mark a criterion unmet~\cite{reuel_betterbench,liu_ecbd_2024,san_joaquin_scorecard_2026}. Comparing the scores requires knowing which question each guide asked, what evidence the reviewer found, and which rule produced the judgment.
+
+\paragraph{Using review findings in a requirement decision.}
+A benchmark review identifies issues with the benchmark and limits on its interpretation. A team still has to determine which findings matter for the requirement at hand. For example, a finding about a weak test matters if that test could count an incomplete fix toward the team's target rate. The team needs a policy for deciding whether to use that result, check the patch, or obtain other evidence. It also needs a rule for deciding whether the score is precise enough to support acceptance or rejection. The thesis studies how to connect these decisions to the record of a benchmark review.
+
+\section{Research Questions}
+\label{sec:intro_rqs}
+
+The thesis asks how a team can compare benchmark reviews and use their findings to decide whether an AI system meets a software requirement. It addresses three questions.
+
+\begin{enumerate}
+    \item \textbf{RQ1.} How often do benchmark review frameworks agree when applied to the same benchmarks, and how do they handle missing documentation and defects found during review?
+    \item \textbf{RQ2.} When reviewers from two model families use \mesa{}, how often do they repeat their ratings, and which defects do they detect in controlled cases and in existing benchmarks?
+    \item \textbf{RQ3.} What do seven decision methods conclude about one coding agent on \swebench{} SymPy tasks, and how do those decisions compare with a direct test on newer SymPy issues?
+\end{enumerate}
+
+\section{Research Scope}
+\label{sec:intro_scope}
+
+For RQ1 and RQ2, the thesis studies reviews of HumanEval, TruthfulQA, Humanity's Last Exam, and $\tau$-bench. These benchmarks cover code generation, factual answers, questions across academic subjects, and agents that use tools. Chapter~\ref{ch:mesa} compares six review frameworks across the benchmarks to which they apply. Benchmark Caliper contributes to the mapping of all seven frameworks and requires a target region for use in a review. The chapter then studies how Claude and Gemini apply the \mesa{} rubric. The evaluation concerns reviews produced by those models under the study conditions. Reviews by people are a question for further study.
+
+For RQ3, the thesis studies one coding agent on one project, with one attempt per issue. It compares 44 tasks from \swebench{} with 44 SymPy issues that were reported and fixed after the agent model's training cutoff. The decision concerns whether the agent can draft fixes under the conditions of the study. The task sets come from the same project and can still differ in difficulty. The benchmark measure counts resolutions under the study rules. A maintainer's decision to merge a proposed change involves further review~\cite{whitfill_metr_merge_2026}.
+
+\section{Thesis Contributions}
+\label{sec:intro_contributions}
+
+\begin{enumerate}
+    \item The thesis maps 280 items from seven benchmark review frameworks to 30 shared concerns. It compares judgments on concerns that the frameworks share and examines how question scope and rules for missing information contribute to disagreements.
+    \item It derives \mesa{}, the Meta-Evaluation Standard for AI. Its 39 criteria comprise eight properties that describe the benchmark and 31 criteria that evaluate evidence. A rating records the support in the sources and the outcome of any check in separate fields. The thesis examines repeatability within each model family and agreement between Claude and Gemini. It tests whether their ratings identify planted defects and defects already documented in the benchmarks.
+    \item It defines and evaluates a decision method that checks session records, applies a policy to benchmark evidence, and compares a score with a requirement using statistical bounds. The SymPy study uses 88 sessions to compare decisions from the same benchmark runs and considers what a direct test on newer issues adds.
+\end{enumerate}
+
+\section{Thesis Outline}
+\label{sec:intro_outline}
+
+Chapter~\ref{ch:background} defines the concepts used in both studies and reviews work on requirements, benchmark validity, review frameworks, and statistical decisions. Chapter~\ref{ch:mesa} presents the mapping, the rubric, and the studies of framework agreement and defect detection. Chapter~\ref{ch:decisions} presents the decision method and the SymPy study. Chapter~\ref{ch:synthesis} discusses how benchmark reviews inform the decision method and considers limits across both studies. Chapter~\ref{ch:conclusion} answers the research questions and describes future work.
+
+\section{Summary}
+\label{sec:intro_summary}
+
+A team selecting a coding agent needs to know whether a benchmark measures performance on tasks relevant to its requirement and whether the score gives enough evidence for a decision. The chapters that follow examine the review of the benchmark first and then use review findings to decide what the team can conclude from the agent's results.
