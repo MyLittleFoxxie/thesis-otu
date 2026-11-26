@@ -28,9 +28,9 @@ async function fillFamiliarity(page, scores = sampleFamiliarity) {
 async function openReview(page, scores) {
   await fillFamiliarity(page, scores);
   await page.getByLabel(/I have read/).check();
-  await page.getByRole("button", { name: "See the example" }).click();
+  await page.getByRole("button", { name: "See the examples" }).click();
   await page.getByRole("heading", { name: "How to rate a card" }).waitFor();
-  assert.match(await page.locator("#example-ratings").innerText(), /Verified[\s\S]+Failed/);
+  assert.match(await page.locator("#example-cards").innerText(), /Verified[\s\S]+Failed[\s\S]+Documented[\s\S]+Not recorded/);
   assert.ok(await page.locator('#example > .lede .term[data-term="check outcome"]').isVisible());
   assert.deepEqual(await page.locator("#example-definitions dt").allTextContents(), expectedChoices);
   assert.ok(await page.locator("#example-definitions").isVisible());
@@ -132,11 +132,11 @@ async function main() {
     await page.keyboard.press("Tab");
     assert.equal(await page.locator(":focus").getAttribute("id"), "familiarity-benchmarks-1");
     await page.getByLabel(/I have read/).check();
-    await page.getByRole("button", { name: "See the example" }).click();
+    await page.getByRole("button", { name: "See the examples" }).click();
     assert.ok(await page.locator("#study").isVisible());
     await fillFamiliarity(page);
     await page.getByLabel(/I have read/).uncheck();
-    await page.getByRole("button", { name: "See the example" }).click();
+    await page.getByRole("button", { name: "See the examples" }).click();
     assert.ok(await page.locator("#study").isVisible());
     await openReview(page);
     await page.getByText("All rating choices", { exact: true }).click();
@@ -167,13 +167,13 @@ async function main() {
 
     await page.getByLabel("B06 Evidence level").selectOption("cannot_judge");
     await page.getByLabel("B06 Check outcome").selectOption("not_performed");
-    assert.equal(await page.locator("#B06-level-help").textContent(), "You are unsure which evidence level fits after reading the material.");
+    assert.equal(await page.locator("#B06-level-help").textContent(), "After reading the material, you are still unsure which evidence level fits.");
     await page.getByRole("button", { name: "Save draft" }).click();
     await page.reload();
     await page.getByRole("button", { name: "Load draft" }).click();
     assert.equal(await page.getByLabel("B06 Evidence level").inputValue(), "cannot_judge");
     assert.equal(await page.getByLabel("B06 Check outcome").inputValue(), "not_performed");
-    assert.equal(await page.locator("#B06-outcome-help").textContent(), "The material shows that the check did not take place.");
+    assert.equal(await page.locator("#B06-outcome-help").textContent(), "The material shows that no check took place.");
     assert.equal(await page.getByLabel("B07 Evidence level").inputValue(), "");
     for (const [id, score] of Object.entries(sampleFamiliarity)) {
       assert.ok(await page.locator("#familiarity-" + id + "-" + score).isChecked());
@@ -194,14 +194,14 @@ async function main() {
     assert.ok(await tooltip.isHidden());
     await fillRatings(page);
     await page.getByRole("button", { name: "Submit review" }).click();
-    await page.getByText("Preview complete. Delivery is disabled.").waitFor();
+    await page.getByText("Preview complete. Responses are not sent in preview mode.").waitFor();
     assert.deepEqual(sent, []);
 
     await page.goto(origin + "/release");
     assert.equal(await page.locator("#consent-text").innerText(), fakeConsent);
     await fillFamiliarity(page);
     await page.getByLabel(/I have read/).check();
-    await page.getByRole("button", { name: "See the example" }).click();
+    await page.getByRole("button", { name: "See the examples" }).click();
     await page.getByText("Open the survey using the link in your invitation.").waitFor();
 
     await Promise.all([
@@ -229,7 +229,7 @@ async function main() {
     assert.equal(first._subject, "TEST MSSurvey TruthfulQA");
     assert.equal(first.study_code, testCode);
     assert.equal(first.survey_id, "mesa-human-review-truthfulqa");
-    assert.equal(first.survey_version, "1.8");
+    assert.equal(first.survey_version, "1.9");
     assert.equal(first.rubric_version, "5.1");
     assert.equal(first.consent, "agreed");
     assert.match(first.packet_sha256, /^[0-9a-f]{64}$/);

@@ -58,7 +58,12 @@ button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-
 
 .guide p, .hint, .scope, .source, .progress { color: var(--muted); }
 .progress, .source, .hint { font-size: .875rem; }
-.progress { margin: 1.35rem 0 .65rem; font-weight: 650; }
+.progress { margin: 0; font-weight: 650; }
+.review-bar { position: sticky; top: 0; z-index: 5; background: var(--background); border-bottom: 1px solid var(--rule); padding: .65rem 0; margin-bottom: 1rem; }
+.review-bar-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
+.review-guide-toggle { max-width: 100%; }
+.review-guide-toggle[open] { width: 100%; }
+.review-guide-toggle .choice-definitions { max-height: 55dvh; overflow: auto; }
 .criterion { font-size: .82rem; font-weight: 700; color: var(--muted); margin-bottom: .25rem; }
 .evidence { padding: .85rem 1rem; margin: .85rem 0; border-inline-start: 3px solid var(--accent); background: var(--wash); border-radius: .2rem .45rem .45rem .2rem; }
 .source { display: block; margin-top: .65rem; }

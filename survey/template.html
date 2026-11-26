@@ -17,18 +17,19 @@ __STYLE__
     </div>
   </header>
   <main class="frame">
-    <p id="preview-note" class="notice" hidden>Preview mode. You can try the review here. Delivery is disabled.</p>
+    <p id="preview-note" class="notice" hidden>Preview mode. You can try the full survey here. Responses are not sent.</p>
     <noscript><p class="notice">Turn on JavaScript to use this survey.</p></noscript>
 
     <section id="study">
       <h1 tabindex="-1">MESA guided review</h1>
       <p class="lede" id="study-lede"></p>
+      <p class="hint">Point to an underlined term, tap it, or focus it with your keyboard to see its definition.</p>
       <div class="panel">
         <h2>About this study</h2>
         <p id="study-purpose"></p>
         <dl id="study-topics"></dl>
         <p id="study-steps"></p>
-        <p>The form collects your familiarity and review ratings, your study code, your consent choice, and any comment you choose to enter. Please keep names and other identifying details out of comments.</p>
+        <p>The form collects your familiarity and review ratings, your anonymous study code (from your invitation link, if used), your consent choice, and any comment you choose to enter. Please keep names and other identifying details out of comments.</p>
         <p id="consent-text" class="consent-text"></p>
         <form id="enrollment">
           <section id="familiarity" aria-labelledby="familiarity-title">
@@ -36,7 +37,7 @@ __STYLE__
           </section>
           <label class="check"><input id="consent" type="checkbox" required> I have read the study information and agree to take part.</label>
           <div class="actions">
-            <button type="submit">See the example</button>
+            <button type="submit">See the examples</button>
             <button type="button" class="secondary" id="load-draft">Load draft</button>
           </div>
         </form>
@@ -46,17 +47,12 @@ __STYLE__
     <section id="example" hidden>
       <h1 tabindex="-1">How to rate a card</h1>
       <p class="lede">The evidence level describes what the material supports. The check outcome records what a check found within its scope.</p>
-      <p class="hint">Point to an underlined term, tap it, or focus it with your keyboard to see its definition.</p>
-      <article class="panel">
-        <h2 id="example-question"></h2>
-        <p id="example-evidence"></p>
-        <dl class="answer-pair" id="example-ratings"></dl>
-        <p id="example-explanation"></p>
-      </article>
+      <p class="hint">Passed means a check found no problem and Failed means it found a problem (not Yes/No). If a passage only describes documentation with no check result, choose Not recorded or Not performed.</p>
       <section class="panel" aria-labelledby="rating-choices-title">
-        <h2 id="rating-choices-title">Rating choices</h2>
+        <h2 id="rating-choices-title">1. Rating choices</h2>
         <div class="choice-definitions" id="example-definitions"></div>
       </section>
+      <div id="example-cards"></div>
       <div class="actions">
         <button type="button" class="secondary" data-page="study">Back</button>
         <button type="button" data-page="review">Review TruthfulQA</button>
@@ -68,14 +64,18 @@ __STYLE__
       <p class="lede" id="benchmark-description"></p>
       <section class="panel guide" aria-label="Review instructions">
         <p>Base each rating on the material shown for that question. All six criteria apply to this review.</p>
-        <p>Use the evidence level for what the material supports and the check outcome for what a check found within the scope on the card.</p>
+        <p>Use each card’s <strong>What counts for this criterion</strong> box together with the rating choices. Choose Evidence level for what the material supports, and Check outcome for what a check found within the scope on the card (use Not recorded or Not performed if no check result is shown).</p>
         <p class="hint">Point to or tap underlined terms to see their definitions.</p>
-        <details>
-          <summary>All rating choices</summary>
-          <div class="choice-definitions" id="review-definitions"></div>
-        </details>
       </section>
-      <p id="progress" class="progress" aria-live="polite"></p>
+      <div class="review-bar" id="review-bar">
+        <div class="review-bar-row">
+          <p id="progress" class="progress" aria-live="polite"></p>
+          <details class="review-guide-toggle">
+            <summary>All rating choices</summary>
+            <div class="choice-definitions" id="review-definitions"></div>
+          </details>
+        </div>
+      </div>
       <form id="review-form">
         <div id="cards"></div>
         <section class="panel">

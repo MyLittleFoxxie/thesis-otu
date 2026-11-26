@@ -150,15 +150,24 @@ function renderFamiliarity({ id, question, help, labels }) {
   return field;
 }
 
-function renderExample() {
-  const { example } = packet;
-  byId("example-question").textContent = example.question;
-  byId("example-evidence").textContent = example.evidence;
-  byId("example-explanation").textContent = example.explanation;
-  for (const [field, options] of Object.entries(fields)) {
-    const pair = element("div");
-    pair.append(element("dt", labels[field]), element("dd", options[example[field]].label));
-    byId("example-ratings").append(pair);
+function renderExamples() {
+  const container = byId("example-cards");
+  for (const example of packet.examples) {
+    const article = element("article", undefined, "panel");
+    const ratings = element("dl", undefined, "answer-pair");
+    for (const [field, options] of Object.entries(fields)) {
+      const pair = element("div");
+      pair.append(element("dt", labels[field]), element("dd", options[example[field]].label));
+      ratings.append(pair);
+    }
+    article.append(
+      element("p", example.label, "criterion"),
+      element("h2", example.question),
+      element("p", example.evidence),
+      ratings,
+      element("p", example.explanation),
+    );
+    container.append(article);
   }
 }
 
@@ -207,6 +216,7 @@ function renderCard(card) {
   article.append(evidence);
 
   const guide = element("details");
+  guide.open = true;
   const guideText = element("dl");
   guideText.append(
     element("dt", "Documented"), element("dd", card.documented),
@@ -335,7 +345,7 @@ async function submitReview(event) {
   event.preventDefault();
   if (sending || accepted || !enrollment.checkValidity() || !reviewForm.reportValidity()) return;
   if (!endpoint) {
-    setStatus("Preview complete. Delivery is disabled.");
+    setStatus("Preview complete. Responses are not sent in preview mode.");
     return;
   }
   if (!studyCode || location.protocol !== "https:") {
@@ -402,15 +412,15 @@ byId("study-topics").append(...packet.introduction.topics.flatMap(({ name, descr
   element("dt", name), element("dd", description),
 ]));
 byId("study-steps").textContent = packet.introduction.steps;
-byId("consent-text").textContent = consent || "This preview keeps responses in your browser if you save a draft.";
+byId("consent-text").textContent = consent || "Preview mode: no responses are sent. If you click Save draft, your answers stay only in this browser.";
 byId("familiarity").append(...packet.familiarity.map(renderFamiliarity));
 byId("benchmark-description").textContent = packet.benchmark.description;
 byId("feedback-label").textContent = packet.feedback_prompt;
 byId("cards").append(...packet.cards.map(renderCard));
-renderExample();
+renderExamples();
 renderDefinitions(byId("example-definitions"));
 renderDefinitions(byId("review-definitions"));
-for (const root of document.querySelectorAll("#study, #example, #review > .lede, #review > .guide, #cards article")) {
+for (const root of document.querySelectorAll("#study, #example, #review > .lede, #review > .guide, #review-bar, #cards article")) {
   annotateTerms(root);
 }
 updateProgress();

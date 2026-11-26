@@ -1,6 +1,6 @@
 {
   "survey_id": "mesa-human-review-truthfulqa",
-  "version": "1.8",
+  "version": "1.9",
   "rubric_version": "5.1",
   "introduction": {
     "lede": "In this survey, you’ll use MESA to review an AI benchmark called TruthfulQA.",
@@ -10,7 +10,7 @@
       {"name": "MESA", "description": "The Meta-Evaluation Standard for AI Benchmarks is a set of questions for reviewing how an AI test works and what its scores can tell you."},
       {"name": "TruthfulQA", "description": "TruthfulQA asks language models questions about things people often get wrong. It checks whether the models give truthful answers or repeat common misconceptions."}
     ],
-    "steps": "You’ll start with three questions about AI, benchmarks, and test scores. Then you’ll see an example of how to use MESA before you rate the evidence on six TruthfulQA cards."
+    "steps": "This takes about 10–15 minutes. You’ll start with three questions about your background with AI, benchmarks, and test scores. Next, you’ll see two short examples of how to use MESA before you rate six TruthfulQA cards, each with a question, its scope, and short evidence passages."
   },
   "familiarity": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "id": "benchmarks",
-      "question": "How familiar are you with AI benchmarks?",
+      "question": "Before starting this survey, how familiar were you with AI benchmarks?",
       "help": "An AI benchmark is a test used to assess an AI system. Think about how familiar this idea was before reading this survey.",
       "labels": [
         "1 — New to me: I had not heard of AI benchmarks.",
@@ -40,7 +40,7 @@
     {
       "id": "scores",
       "question": "How confident are you about interpreting AI test scores?",
-      "help": "Interpreting a score means deciding what a result tells us, such as whether two AI systems can be compared fairly. Choose how confident you feel now.",
+      "help": "Interpreting a benchmark or test score means deciding what a result tells us, such as whether two AI systems can be compared fairly. Choose how confident you feel now.",
       "labels": [
         "1 — Not confident: I would need help understanding a test score.",
         "2 — Slightly confident: I understand a simple score but need help comparing results.",
@@ -52,23 +52,23 @@
   ],
   "benchmark": {
     "name": "TruthfulQA",
-    "description": "TruthfulQA tests whether a language model gives truthful answers to questions about common misconceptions. The task can use human ratings or an automated judge. The release notes also cover changes to the multiple choice task.",
+    "description": "TruthfulQA tests whether a language model gives truthful answers to questions about common misconceptions. The task can use human ratings or an automated judge, and later updates changed the multiple choice task.",
     "judgeability": "Mixed. The benchmark supports both human and automated scoring."
   },
   "levels": {
     "claimed": {"label": "Claimed", "help": "The source says something is true but supplies only the claim."},
     "documented": {"label": "Documented", "help": "The source gives something you can inspect, such as the scoring rule or evaluation instructions."},
-    "verified": {"label": "Verified", "help": "The source explains what a check covered, what it found, and what it could miss. The check may have passed or failed."},
-    "contradicted": {"label": "Contradicted", "help": "The material shows a problem or presents evidence that conflicts with the claim."},
-    "undocumented": {"label": "Undocumented", "help": "The material leaves out information you would need to give an evidence level."},
-    "cannot_judge": {"label": "Cannot judge", "help": "You are unsure which evidence level fits after reading the material."}
+    "verified": {"label": "Verified", "help": "The source reports a check (what it covered, found, and could miss) or meets the card’s Verified rule. A check may have passed or failed."},
+    "contradicted": {"label": "Contradicted", "help": "The material directly conflicts with a claim or shows that a claimed safeguard or result does not hold."},
+    "undocumented": {"label": "Undocumented", "help": "The source itself does not provide or report the information asked about. Missing info is not automatically a flaw."},
+    "cannot_judge": {"label": "Cannot judge", "help": "After reading the material, you are still unsure which evidence level fits."}
   },
   "outcomes": {
-    "passed": {"label": "Passed", "help": "The check found no problem related to the question within the part it examined."},
-    "failed": {"label": "Failed", "help": "The check found a problem related to the question within the part it examined."},
-    "not_performed": {"label": "Not performed", "help": "The material shows that the check did not take place."},
-    "not_recorded": {"label": "Not recorded", "help": "The material gives no clear check result. It may also be unclear whether the check took place."},
-    "cannot_judge": {"label": "Cannot judge", "help": "You are unsure which check outcome fits after reading the material."}
+    "passed": {"label": "Passed", "help": "A check found no problem related to the question within the part it examined."},
+    "failed": {"label": "Failed", "help": "A check found a problem related to the question within the part it examined."},
+    "not_performed": {"label": "Not performed", "help": "The material shows that no check took place."},
+    "not_recorded": {"label": "Not recorded", "help": "The material gives no check result (for example, it only describes documentation, or does not say whether a check ran)."},
+    "cannot_judge": {"label": "Cannot judge", "help": "After reading the material, you are still unsure which check outcome fits."}
   },
   "definitions": [
     {"label": "MESA", "aliases": ["MESA"], "definition": "The Meta-Evaluation Standard for AI Benchmarks is a set of questions for reviewing how an AI test works and what its scores can tell you."},
@@ -93,7 +93,8 @@
     {"label": "Validation accuracy", "aliases": ["validation accuracy"], "definition": "Here, the share of answers for which GPT-judge and the human reviewer gave the same label in a check."},
     {"label": "Validation", "aliases": ["validation samples", "validation setup", "validated", "validation"], "definition": "A check of how well something works. Here, the authors compared the judge’s ratings with ratings from people."},
     {"label": "Human baseline", "aliases": ["human baseline", "baseline scores"], "definition": "A result used as a point of comparison. A human baseline comes from people’s answers."},
-    {"label": "Model family", "aliases": ["model family", "held out family"], "definition": "A group of related models, often with different sizes. A held out family is set aside for testing."},
+    {"label": "Model family", "aliases": ["model family"], "definition": "A group of related models, often with different sizes."},
+    {"label": "Held out", "aliases": ["held out family", "held out"], "definition": "Data or models set aside during training and used only for testing."},
     {"label": "Training set", "aliases": ["training set"], "definition": "Examples used to teach a model before testing it on other examples."},
     {"label": "Sampling", "aliases": ["sampling settings"], "definition": "Generating answers from a model’s predictions. Settings can change how much the answers vary across attempts."},
     {"label": "Token", "aliases": ["token"], "definition": "A piece of text a model works with, such as a word, part of a word, or punctuation."},
@@ -114,13 +115,24 @@
     {"label": "Release identifier", "aliases": ["release identifier"], "definition": "A name, number, or date used to identify a specific version."},
     {"label": "Reference answer", "aliases": ["reference answers", "reference answer"], "definition": "An answer supplied with the test for comparison with what a model wrote."}
   ],
-  "example": {
-    "question": "Did the scorer accept a wrong answer?",
-    "evidence": "A reviewer checked 10 responses to a practice test by comparing each one with an answer key. The scoring program accepted two responses that the answer key marked wrong. The reviewer used only these 10 responses and did not test other answer formats.",
-    "level": "verified",
-    "outcome": "failed",
-    "explanation": "The evidence level is Verified because the report explains how the check worked, which answers it covered, and its limits. The check outcome is Failed because the scorer accepted two wrong answers."
-  },
+  "examples": [
+    {
+      "label": "Example 1 · Check reported",
+      "question": "Did the scorer accept a wrong answer?",
+      "evidence": "A reviewer checked 10 responses to a practice test by comparing each one with an answer key. The scoring program accepted two responses that the answer key marked wrong. The reviewer used only these 10 responses and did not test other answer formats.",
+      "level": "verified",
+      "outcome": "failed",
+      "explanation": "The evidence level is Verified because the report explains how the check worked, which answers it covered, and its limits (Verified does not mean the check passed). The check outcome is Failed because the check found a problem: the scorer accepted two wrong answers."
+    },
+    {
+      "label": "Example 2 · Documentation only (no check reported)",
+      "question": "Is the scoring rule described?",
+      "evidence": "A practice test handbook states that each short-answer response is scored 1 if it matches the reference number and 0 otherwise. It does not report any test of whether the scorer handles edge cases.",
+      "level": "documented",
+      "outcome": "not_recorded",
+      "explanation": "The evidence level is Documented because the handbook gives an inspectable scoring rule and expected format. The check outcome is Not recorded because no check result is reported (choose Not recorded or Not performed when a passage describes documentation rather than a check)."
+    }
+  ],
   "feedback_prompt": "Which rating was hardest to choose, and why?",
   "cards": [
     {
@@ -143,7 +155,7 @@
       "question": "Was the scoring implementation checked, and can it accept a wrong answer?",
       "documented": "The scoring implementation can be inspected and compared with the rule.",
       "verified": "A scorer or judge is validated against a reference, with the check and its limits reported.",
-      "scope": "GPT-judge on the validation samples shown here. The survey excludes zero tasks from the stated scope.",
+      "scope": "GPT-judge on the validation samples shown here.",
       "evidence": [
         "The authors trained GPT-judge to predict human labels for generated answers. They report 90–96% validation accuracy across the models tested. They also tested it on the answers from their human baseline, which was absent from the judge's training set. It matched the human labels on 89.5% of those answers.",
         "For each model family in one validation setup, they trained the judge on the other families and tested it on the held out family. In the appendix, the authors give examples where the judge marked an answer false that a human evaluator had marked true."

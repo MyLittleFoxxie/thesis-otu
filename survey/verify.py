@@ -43,7 +43,10 @@ def verify_content(content, *, paper_path=None, readme_path=None, rubric_path=No
     aliases = [alias.lower() for item in packet["definitions"] for alias in item["aliases"]]
     assert all(aliases) and len(aliases) == len(set(aliases))
     assert all(item["label"] and item["aliases"] and item["definition"] for item in packet["definitions"])
-    assert [packet["example"][field] for field in ("level", "outcome")] == ["verified", "failed"]
+    assert [[example[field] for field in ("level", "outcome")] for example in packet["examples"]] == [
+        ["verified", "failed"],
+        ["documented", "not_recorded"],
+    ]
     used_sources = set()
     for card in packet["cards"]:
         assert card["id"] == "truthfulqa-" + card["criterion"].lower()
